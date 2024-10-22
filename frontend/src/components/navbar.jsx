@@ -1,40 +1,91 @@
-import React from 'react'
-import Avatar from 'react-avatar'
-import { RiMenu3Line } from "react-icons/ri";
-import logo from '../assets/logo.png'
-import { BiSearchAlt } from "react-icons/bi";
-import { RiMic2Line } from "react-icons/ri";
-import { SiDarkreader } from "react-icons/si";
-import { TbVideoPlus } from "react-icons/tb";
-import { RiNotification2Line } from "react-icons/ri";
-import Profile from '../assets/profile.png'
+import { useEffect, useState } from "react";
+import { Menu, Mic, MoonStar, Search, Sun } from "lucide-react";
+import {Profile, logo} from "../assets/index.js";
 
+const Navbar = ({ toggleSidebar }) => {
+  // Initialize dark mode state based on localStorage value
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    return savedMode ? JSON.parse(savedMode) : false;
+  });
 
-const navbar = () => {
+  // Effect to update body class and localStorage when dark mode state changes
+  useEffect(() => {
+    document.body.classList[isDarkMode ? "add" : "remove"]("dark");
+    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
+  // Function to toggle dark mode state
+  const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+  };
+
   return (
-    <div className='flex justify-between px-6 py-2'> 
-        <div className='flex items-center space-x-4 '>
-        <RiMenu3Line size ={"28px"} className='cursor-pointer hover:bg-gray-200 rounded-full p-1 duration-200'/>
-        <img src={logo} alt="logo" className='w-8 cursor-pointer' />
-        </div>
-        <div className='flex w-[30%]'>
-            <div className='w-[100%] px-3 py-2 rounded-l-full bg-gray-50'>
-                <input type="text" placeholder='search' className='outline-none bg-gray-50'/> 
-            </div>
-            <button className='px-4 py-2  bg-gray-100 rounded-r-full'>
-                <BiSearchAlt size={"20px"} />
-            </button>
-            <RiMic2Line size={"42px"}   className='ml-3 border rounded-full p-2 cursor-pointer hover:bg-gray-200 duration-200'/>
-        </div>
-        <div className='flex space-x-5 place-items-center'>
-            <SiDarkreader size={"28px"} className='cursor-pointer hover:bg-gray-200 rounded-full p-1 duration-200' />
-            <TbVideoPlus size={"28px"} className='cursor-pointer hover:bg-gray-200 rounded-full p-1 duration-200'/>
-            <RiNotification2Line size={"28px"} className='cursor-pointer hover:bg-gray-200 rounded-full p-1 duration-200' />
-            <Avatar src={Profile} size='32' round={true} className='cursor-pointer' />
-        </div>
-    </div>
-    
-  )
-}
+    <header className="sticky top-0 z-10 bg-white dark:bg-neutral-900">
+      <nav className="flex items-center justify-between py-2 pb-5 px-4">
+        {/* Rendering left section of the navbar */}
+        <HeaderLeftSection toggleSidebar={toggleSidebar} />
 
-export default navbar
+        {/* Search input and mic section */}
+        <div className="h-10 flex gap-3 w-[600px] max-lg:w-[500px] max-md:hidden">
+          <form action="#" className="flex w-full">
+            <input
+              className="border border-neutral-300 w-full h-full rounded-l-full px-4 outline-none focus:border-blue-500 dark:bg-neutral-900 dark:border-neutral-500 dark:focus:border-blue-500 dark:text-neutral-300"
+              type="search"
+              placeholder="Search"
+              required
+            />
+            <button className="border border-neutral-300 px-5 border-l-0 rounded-r-full hover:bg-neutral-100 dark:border-neutral-500 hover:dark:bg-neutral-700">
+              <Search className="dark:text-neutral-400" />
+            </button>
+          </form>
+          <button className="p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 hover:dark:bg-neutral-700">
+            <Mic className="dark:text-neutral-400" />
+          </button>
+        </div>
+
+        {/* User and dark mode toggle section */}
+        <div className="flex items-center gap-4">
+          <button className="p-2 rounded-full md:hidden hover:bg-neutral-200 hover:dark:bg-neutral-700">
+            <Search className="dark:text-neutral-400" />
+          </button>
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full hover:bg-neutral-200 hover:dark:bg-neutral-700"
+          >
+            {isDarkMode ? (
+              <Sun className="dark:text-neutral-400" />
+            ) : (
+              <MoonStar className="dark:text-neutral-400" />
+            )}
+          </button>
+          <img
+            className="w-8 h-8 rounded-full cursor-pointer"
+            src={Profile}
+            alt="User Image"
+          />
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+// Component for the left section of the navbar
+export const HeaderLeftSection = ({ toggleSidebar }) => {
+  return (
+    <div className="flex gap-4 items-center">
+      <button
+        onClick={toggleSidebar}
+        className="p-2 rounded-full hover:bg-neutral-200 hover:dark:bg-neutral-700"
+      >
+        <Menu className="dark:text-neutral-400" />
+      </button>
+      <a className="flex items-center gap-2" href="#">
+        <img src={logo} width={32} alt="Logo" />
+        <h2 className="text-xl font-bold dark:text-neutral-300">VideoTube</h2>
+      </a>
+    </div>
+  );
+};
+
+export default Navbar;
