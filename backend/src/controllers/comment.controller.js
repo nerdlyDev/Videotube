@@ -60,11 +60,12 @@ const updateComment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Content is required")
     }
 
-    const comment = await Comment.findOne({
+    const comment = await Comment.findByIdAndUpdate({
         _id: commentId,
         owner: userId
+        
     })
-
+    
     if (!comment) {
         throw new ApiError(404, "Comment not found")
     }
@@ -84,7 +85,7 @@ const deleteComment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid comment id")
     }
     
-    const comment = await Comment.findOneAndDelete({
+    const comment = await Comment.findByIdAndDelete({
         _id: commentId,
         owner: userId
     })

@@ -21,6 +21,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     .where("isPublished")
     .equals(true);
 
+  
   const totalVideos = await Video.countDocuments().where("isPublished").equals(true);
 
   if (!videos) {
@@ -127,6 +128,8 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
   await video.save();
   return res.json(new ApiResponse(200, video));
 });
+
+
 
 export {
   getAllVideos,
