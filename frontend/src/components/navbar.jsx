@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { Menu, Mic, MoonStar, Search, Sun } from "lucide-react";
-import {Profile, logo} from "../assets/index.js";
+import { Profile, logo } from "../assets/index.js";
 
 const Navbar = ({ toggleSidebar }) => {
-  // Initialize dark mode state based on localStorage value
+  const user = false;
+
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode ? JSON.parse(savedMode) : false;
   });
 
-  // Effect to update body class and localStorage when dark mode state changes
   useEffect(() => {
     document.body.classList[isDarkMode ? "add" : "remove"]("dark");
     localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
   }, [isDarkMode]);
 
-  // Function to toggle dark mode state
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
@@ -23,7 +22,7 @@ const Navbar = ({ toggleSidebar }) => {
   return (
     <header className="sticky top-0 z-10 bg-white dark:bg-neutral-900">
       <nav className="flex items-center justify-between py-2 pb-5 px-4">
-        {/* Rendering left section of the navbar */}
+        
         <HeaderLeftSection toggleSidebar={toggleSidebar} />
 
         {/* Search input and mic section */}
@@ -44,7 +43,7 @@ const Navbar = ({ toggleSidebar }) => {
           </button>
         </div>
 
-        {/* User and dark mode toggle section */}
+
         <div className="flex items-center gap-4">
           <button className="p-2 rounded-full md:hidden hover:bg-neutral-200 hover:dark:bg-neutral-700">
             <Search className="dark:text-neutral-400" />
@@ -59,11 +58,20 @@ const Navbar = ({ toggleSidebar }) => {
               <MoonStar className="dark:text-neutral-400" />
             )}
           </button>
-          <img
-            className="w-8 h-8 rounded-full cursor-pointer"
-            src={Profile}
-            alt="User Image"
-          />
+          {
+            //if user is logged in, show user profile image else show login button
+            user ? (
+              <img
+                className="w-8 h-8 rounded-full cursor-pointer"
+                src={Profile}
+                alt="User Image"
+              />
+            ) : (
+              <button className="text-sm text-black hover:bg-neutral-300  dark:text-neutral-300 font-semibold rounded-lg w-20 h-10 dark:bg-neutral-700 hover:dark:bg-neutral-600 bg-neutral-200">
+                Login
+              </button>
+            )
+          }
         </div>
       </nav>
     </header>

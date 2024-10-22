@@ -3,7 +3,6 @@ import { sidebarLinks } from "../constents/index.js";
 import { Home, Video, TvMinimal, UserRound, History, Clock4, Flame, Music, Gamepad2, Trophy, TvMinimalPlay, ListMusic, Tv, Settings, Flag, CircleHelp, MessageSquareWarning } from "lucide-react";
 import { HeaderLeftSection } from "./Navbar.jsx";
 
-// Mapping icon names to Lucide React components
 const iconComponents = { Home, Video, TvMinimal, UserRound, History, Clock4, Flame, Music, Gamepad2, Trophy, TvMinimalPlay, ListMusic, Tv, Settings, Flag, CircleHelp, MessageSquareWarning };
 
 const Sidebar = ({ toggleSidebar, isSidebarOpen }) => {
@@ -23,7 +22,7 @@ const Sidebar = ({ toggleSidebar, isSidebarOpen }) => {
         {/* Mapping through sidebarLinks to render categories and links */}
         {sidebarLinks.map((category, catIndex) => (
           <div key={catIndex}>
-            {/* Render category title if exists */}
+
             {category.categoryTitle && (
               <h4 className="text-[15px] font-semibold mb-2 ml-2 mt-4 dark:text-neutral-300">
                 {category.categoryTitle}
@@ -52,7 +51,6 @@ const Sidebar = ({ toggleSidebar, isSidebarOpen }) => {
   );
 };
 
-// Link component within the sidebar
 export const Link = ({ link, IconComponent }) => {
   return (
     <a
