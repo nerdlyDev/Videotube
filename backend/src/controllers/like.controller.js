@@ -17,7 +17,11 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
   });
 
   if (like) {
-    await like.remove();
+    // remove like if already liked by user without using remove method of mongoose model instance to avoid pre save hook in like model to run again and again
+    await Like.deleteOne({
+      video: videoId,
+      likedBy: req.user._id,
+    });
     return res
       .status(200)
       .json(new ApiResponse(200, "Liked remove successfully", {}));
@@ -46,7 +50,10 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
   });
 
   if (like) {
-    await like.remove();
+    await like.deleteOne({
+      comment: commentId,
+      likedBy: req.user._id,
+    })
     return res
       .status(200)
       .json(new ApiResponse(200, "Comment Liked removed successfully", {}));
@@ -77,7 +84,10 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
   });
 
   if (like) {
-    await like.remove();
+    await like.deleteOne({
+      tweet: tweetId,
+      likedBy: req.user._id,
+    })
     return res
       .status(200)
       .json(new ApiResponse(200, "Tweet Liked removed successfully", {}));
@@ -111,7 +121,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .json(new ApiResponse(200, "Liked videos fetched successfully", videos));
+      .json(new ApiResponse(200, "Liked videos fetched successfully", likeVideos));
 });
 
 export { toggleCommentLike, toggleTweetLike, toggleVideoLike, getLikedVideos };

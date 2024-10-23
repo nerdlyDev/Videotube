@@ -101,9 +101,7 @@ const getChannelVideos = asyncHandler(async (req, res) => {
   if (!userId) {
     throw new ApiError(404, "User not found");
   }
-  const videos = await Video.find({
-    owner: userId,
-  }).count();
+  const videos = await Video.find({ owner: new mongoose.Types.ObjectId(userId) });
 
   if (!videos.length) {
     return res
