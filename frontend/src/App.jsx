@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-import { useState } from 'react'
-import Navbar from "./components/navbar"
-import Sidebar from './components/sidebar'
-=======
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import CategoryPill from "./components/CategoryPill";
 import VideoItem from "./components/VideoItem";
 import { categories, videos } from "./constents/index";
->>>>>>> 0b0e4120ed23aae1e54966b0606d8bcc3bdf7990
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -24,10 +18,6 @@ function App() {
 
   return (
     <>
-<<<<<<< HEAD
-    <Navbar/>
-    <Sidebar/>
-=======
       <div className="max-h-screen flex flex-col overflow-hidden dark:bg-neutral-950">
         <Navbar toggleSidebar={toggleSidebar} />
         <div className="flex overflow-auto">
@@ -62,7 +52,6 @@ function App() {
           </div>
         </div>
       </div>
->>>>>>> 0b0e4120ed23aae1e54966b0606d8bcc3bdf7990
     </>
   );
 }

@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Menu, Mic, MoonStar, Search, Sun } from "lucide-react";
 import { Profile, logo } from "../assets/index.js";
 
 const Navbar = ({ toggleSidebar }) => {
-  const user = false;
+  const user = true;
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
